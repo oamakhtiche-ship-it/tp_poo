@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 
 public class Alerte {
+    private Capteur.typezone zone;
     private String capteurId;
     private LocalDateTime dateHeure;
     private String message;
@@ -17,7 +18,7 @@ public class Alerte {
         this.statut = StatutAlerte.ACTIVE;  
     
     }
-    //methode pour acquittee l'alerte
+    //methode pour acquittee une alerte
 public void acquitter(){
     this.statut=StatutAlerte.ACQUITTEE;
 

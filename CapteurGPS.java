@@ -5,13 +5,14 @@ public class CapteurGPS extends Capteur {
  private String animalID;
 
   //constructor
-  public CapteurGPS(String code,Statuscapt status,Plageseuil plageSeuils,String zoneID,String animalID){
+  public CapteurGPS(String code,Statuscapt status,Plageseuil plageSeuils,typezone zoneID,String animalID){
     super( code, status, plageSeuils,zoneID);
     this.animalID=animalID;
    }
 
+   
    //implementer la methode envoyer releve
-   public Releve envoyerReleve(){
+  public Releve envoyerReleve(){
      //traite le cas de capteur suspendu
         if (estSuspendu()) {
     System.out.println("Capteur est desactive");
@@ -22,11 +23,14 @@ public class CapteurGPS extends Capteur {
         double longitude = 3.00  + (Math.random() - 0.5) * 0.01;
  
         ReleveGPS releve = new ReleveGPS(
-            java.util.UUID.randomUUID().toString(),getcode(),LocalDateTime.now(),latitude,longitude );
+            java.util.UUID.randomUUID().toString(),zoneID,getcode(),LocalDateTime.now(),latitude,longitude );
         ajouterReleve(releve);
         //detection d'une Alerte
     releve.genererAlerte(getPlageSeuils());
-   
+    Alerte alerteGPS=  releve.genererAlerte(getPlageSeuils());
+    if (alerteGPS != null) {
+                    pannAlertes.add(alerteGPS);
+                }
         return releve;
 
    }

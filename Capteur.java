@@ -1,4 +1,5 @@
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,16 +8,20 @@ abstract class Capteur implements Suspendable{
    protected String code;
    protected  Statuscapt statut;
    protected Plageseuil plageSeuils;
-   protected String zoneID;       // zone a laquelle le capteur est affecte
+   public enum typezone{ELEVAGE,CULTURE,AQUACOLE}
+   protected typezone zoneID;       // zone a laquelle le capteur est affecte
    protected List<Releve> historique;
+   protected List<Alerte> pannAlertes;
     
 //constructor
-public Capteur(String code,Statuscapt status,Plageseuil plageSeuils,String zoneID){
+public Capteur(String code,Statuscapt status,Plageseuil plageSeuils,typezone zoneID){
 this.code=code;
+this.zoneID=zoneID;
 this.statut=Statuscapt.ACTIF;
 this.zoneID = zoneID;
 this.plageSeuils = plageSeuils;
 this.historique = new ArrayList<>();
+this.pannAlertes=new ArrayList<>();
 }
 //chaque capteur envoie son releve a sa facon (abstraite)
 public abstract Releve envoyerReleve();
@@ -52,7 +57,7 @@ public void ajouterReleve(Releve releve) {
     }
    //  getters
 public String getcode(){return code;}
-public String getzoneID(){return zoneID;}
+public typezone getzoneID(){return zoneID;}
 public Statuscapt getstatus(){return statut;}
 public Plageseuil getPlageSeuils() { return plageSeuils; }
    //  afficher tous l'historique
@@ -62,11 +67,39 @@ public List<Releve> getHistorique() {
 
 // setters
 public void setcode(String code){this.code=code;}
-public void setZoneId(String zoneId) { this.zoneID = zoneId; }
+public void setZoneId(typezone zoneId) { this.zoneID = zoneId; }
 public void setStatut(Statuscapt statut) { this.statut = statut; }
-public void setPlageSeuils(Plageseuil plageSeuils) { this.plageSeuils = plageSeuils; 
-}
-}
+public void setPlageSeuils(Plageseuil plageSeuils) { this.plageSeuils = plageSeuils; }
+
+
+//methode pour filtrer les releves
+ public List<Releve> filtrerReleve(LocalDateTime debut, LocalDateTime fin ){
+ List<Releve> resultats = new ArrayList<>();
+ for (Releve a : historique) {
+             // filtre periode
+        if (debut != null  && a.getDateHeure().isBefore(debut)) continue;
+        if (fin != null  &&  a.getDateHeure().isAfter(fin)) continue; 
+  resultats.add(a);
+        }
+      return resultats;
+ }
+
+ //afficher la liste des releves
+ public void afficheReleves(List<Releve> hist){
+    if (hist.isEmpty()) {
+        System.out.println("  Aucun releve detectee.");
+        return;
+        } 
+    System.out.printf("  %-10s %-14s %-12s %-20s%n","ID", "capteurID", "Zone", "DATE/HEURE");
+    System.out.println("  " + "-".repeat(80));
+    for (Releve a : hist) {
+         System.out.printf("  %-10s %-14s %-12s %-20s%n", a.getId(), a.getCapteurId(), a.getzone(), a.getDateHeure());
+        }
+    }
+
+    
+ }
+
 
 
 

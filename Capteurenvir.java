@@ -1,7 +1,7 @@
 public class Capteurenvir extends Capteurnum{
 
     //constructor
-  public Capteurenvir(String code,Statuscapt status,Plageseuil plageSeuils,String zoneID,Typemesure mesure){
+  public Capteurenvir(String code,Statuscapt status,Plageseuil plageSeuils,typezone zoneID,Typemesure mesure){
     super(code, status, plageSeuils, zoneID, mesure);
 }
 //implemenatation de methode lireValeur

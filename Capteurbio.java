@@ -4,7 +4,7 @@ public class Capteurbio extends Capteurnum{
 
 
 //constructeur 
-public Capteurbio(String code,Statuscapt status,Plageseuil plageSeuils,String zoneID,Typemesure mesure,String animalID){
+public Capteurbio(String code,Statuscapt status,Plageseuil plageSeuils,typezone zoneID,Typemesure mesure,String animalID){
     super(code, status, plageSeuils, zoneID, mesure);
     this.animalId=animalID;
 }

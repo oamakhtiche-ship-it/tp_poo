@@ -5,10 +5,10 @@ public class ReleveGPS extends Releve {
     private double longitude;
 
 //constructor
- public ReleveGPS(String id, String capteurId,
+ public ReleveGPS(String id,Capteur.typezone zone, String capteurId,
                      LocalDateTime dateHeure,
                      double latitude, double longitude) {
-        super(id, capteurId, dateHeure);
+        super(id,zone, capteurId, dateHeure);
         this.latitude = latitude;
         this.longitude = longitude;
     }   
@@ -21,17 +21,34 @@ public void setLongitude(double longitude){this.longitude=longitude; }
 
 //declancher une alerte
  public Alerte genererAlerte(Plageseuil Plageseuils){
-    double Min=-100;double Max=100;
-    boolean estdansZone = latitude >= Plageseuils.getmin() && latitude <= Plageseuils.getmax() && longitude >= Plageseuils.getmin() && longitude <=Plageseuils.getmax() ;
-    if (estdansZone){return null;}
+Plageseuil plageseuils2 = new Plageseuil(0.0,100);
+ boolean estdansZone = Plageseuils.estdanslaplage(latitude) && plageseuils2.estdanslaplage(longitude);
 
-    String message = "Animal sorti de sa zone  lat=" + latitude + ", lon=" + longitude;
-   
-    return new Alerte(
-        capteurId,
-        LocalDateTime.now(),
-        message,
-        Niveaugrav.CRITIQUE);}
+    if (estdansZone) {return null;}
+
+    else {
+String message = "Animal sorti de sa zone lat=" + latitude + ", lon=" + + longitude;
+boolean horszone=Plageseuils.horsmaxplage(latitude) || plageseuils2.horsmaxplage(longitude);
+     if (horszone) {
+
+            return new Alerte(
+                capteurId,
+                LocalDateTime.now(),
+                message,
+                Niveaugrav.CRITIQUE
+            );
+        }
+        else {
+
+            return new Alerte(
+                capteurId,
+                LocalDateTime.now(),
+                message,
+                Niveaugrav.AVERTISSEMENT
+            );
+        }
+    }
+}
     
 
  }

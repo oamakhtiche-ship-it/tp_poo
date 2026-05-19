@@ -5,15 +5,14 @@ abstract class Capteurnum extends Capteur{
 
 
 //constructor
- public Capteurnum(String code,Statuscapt status,Plageseuil plageSeuils,String zoneID,Typemesure mesure){  
+ public Capteurnum(String code,Statuscapt status,Plageseuil plageSeuils,typezone zoneID,Typemesure mesure){  
     
     super(code, status, plageSeuils,zoneID);
         this.mesure = mesure;
  }
 
-//on doit lire les valeurs de fichier
+//on doit lire les valeurs 
  protected abstract double lireValeur();
-
 
 
  // le capteur numerique envoie les valeurs a le releve numerique
@@ -26,11 +25,13 @@ abstract class Capteurnum extends Capteur{
         //sinon
         double valeur = lireValeur();
         Relevenum releve = new Relevenum(
-            java.util.UUID.randomUUID().toString(), getcode(), LocalDateTime.now(), valeur, mesure);
+            java.util.UUID.randomUUID().toString(),zoneID, getcode(), LocalDateTime.now(), valeur, mesure);
         ajouterReleve(releve);
         
       //detection d'une Alerte
       releve.genererAlerte(getPlageSeuils());
+       if (releve.genererAlerte(getPlageSeuils()) != null) {
+            pannAlertes.add(releve.genererAlerte(getPlageSeuils()));}
  
 return releve;
     }; 

@@ -1,7 +1,7 @@
 public class capteursol extends Capteurnum {
 
 //constructeur
- public capteursol(String code,Statuscapt status,Plageseuil plageSeuils,String zoneID,Typemesure mesure) {
+ public capteursol(String code,Statuscapt status,Plageseuil plageSeuils,typezone zoneID,Typemesure mesure) {
         super(code, status,plageSeuils,zoneID, mesure);
     }
 

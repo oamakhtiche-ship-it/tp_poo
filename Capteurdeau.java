@@ -2,7 +2,7 @@ public class Capteurdeau extends Capteurnum{
 
 
 //constructeur
-public Capteurdeau(String code,Statuscapt status,Plageseuil plageSeuils,String zoneID,Typemesure mesure){
+public Capteurdeau(String code,Statuscapt status,Plageseuil plageSeuils,typezone zoneID,Typemesure mesure){
     super(code, status, plageSeuils, zoneID, mesure);
 }
 //implementation de methode lireValeur
